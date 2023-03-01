@@ -62,7 +62,7 @@ def main():
             prompt += answer + "\n"
             print("\n\n")
 
-        except KeyboardInterrupt as e:
+        except (KeyboardInterrupt, EOFError) as e:
             print("\nBye~")
             break
 
