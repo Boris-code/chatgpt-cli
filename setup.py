@@ -10,8 +10,11 @@ Created on 2022/8/4 11:38 上午
 
 from setuptools import setup, find_packages
 
+with open("README.md", "r", encoding="utf8") as fh:
+    long_description = fh.read()
+
 setup(
-    version="1.4",
+    version="1.5",
     name="asst",
     license="MIT",
     author="Boris",
@@ -23,6 +26,8 @@ setup(
         asst=chatgpt.main:main
     """,
     description="ChatGPT shell command",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/Boris-code/chatgpt-cli.git",
     classifiers=["Programming Language :: Python :: 3"],
 )
