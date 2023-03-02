@@ -15,7 +15,7 @@ from os.path import dirname, join
 
 import requests
 
-from core import gpt_35_turbo
+from chatgpt.core import gpt_35_turbo
 
 
 api_key = os.getenv("OPENAI_API_KEY")
