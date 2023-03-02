@@ -90,6 +90,8 @@ def main():
                 answer += message
 
             messages.append({"role": "assistant", "content": answer})
+            if len(str(messages)) > 2048:
+                messages = messages[-3:]
             print("\n\n")
 
         except (KeyboardInterrupt, EOFError) as e:

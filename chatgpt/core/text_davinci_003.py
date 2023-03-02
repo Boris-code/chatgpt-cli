@@ -56,6 +56,8 @@ def main():
                 answer += text
 
             prompt += answer + "\n"
+            if len(prompt) > 2048:
+                prompt = prompt[-2048:]
             print("\n\n")
 
         except (KeyboardInterrupt, EOFError) as e:
