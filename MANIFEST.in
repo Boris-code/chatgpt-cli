@@ -1,0 +1,7 @@
+include README.md
+include LICENSE
+
+include chatgpt/requirements.txt
+include chatgpt/VERSION
+
+global-exclude __pycache__ *.py[cod]
