@@ -8,13 +8,18 @@ Created on 2022/8/4 11:38 上午
 @email: boris_liu@foxmail.com
 """
 
+from os.path import dirname, join
+
 from setuptools import setup, find_packages
 
 with open("README.md", "r", encoding="utf8") as fh:
     long_description = fh.read()
 
+with open(join(dirname(__file__), "chatgpt/VERSION"), "rb") as fh:
+    version = fh.read().decode("ascii").strip()
+
 setup(
-    version="1.7",
+    version=version,
     name="asst",
     license="MIT",
     author="Boris",
