@@ -14,7 +14,7 @@ with open("README.md", "r", encoding="utf8") as fh:
     long_description = fh.read()
 
 setup(
-    version="1.5",
+    version="1.6",
     name="asst",
     license="MIT",
     author="Boris",

@@ -9,8 +9,10 @@ Created on 2022/12/8 8:55 PM
 """
 
 import os
+import readline
 
 import openai
+
 
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
