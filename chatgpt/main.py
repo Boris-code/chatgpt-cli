@@ -7,16 +7,20 @@ Created on 2022/12/8 8:55 PM
 @author: Boris
 @email: boris_liu@foxmail.com
 """
+try:
+    import readline
+except Exception as e:
+    pass
 
 import os
 import re
-import readline
 from os.path import dirname, join
 
 import requests
 
 from chatgpt.core import gpt_35_turbo
-from chatgpt.core import text_davinci_003
+
+# from chatgpt.core import text_davinci_003
 
 
 api_key = os.getenv("OPENAI_API_KEY")
