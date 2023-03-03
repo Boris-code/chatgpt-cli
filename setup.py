@@ -26,7 +26,7 @@ setup(
     author_email="boris_liu@foxmail.com",
     packages=find_packages(),
     include_package_data=True,
-    install_requires=["openai==0.27.0", "readline"],
+    install_requires=["openai==0.27.0"],
     entry_points="""
         [console_scripts]
         asst=chatgpt.main:main
