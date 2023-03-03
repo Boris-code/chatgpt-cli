@@ -16,6 +16,7 @@ from os.path import dirname, join
 import requests
 
 from chatgpt.core import gpt_35_turbo
+from chatgpt.core import text_davinci_003
 
 
 api_key = os.getenv("OPENAI_API_KEY")
@@ -59,6 +60,7 @@ def check_new_version():
 
 def main():
     gpt_35_turbo.main()
+    # text_davinci_003.main()
     check_new_version()
 
 

@@ -54,7 +54,7 @@ def request(messages):
         "stream": True,
         "user": api_key,
     }
-    response = requests.post(url, headers=headers, json=data, stream=True)
+    response = requests.post(url, headers=headers, json=data, stream=True, timeout=60)
     if response.status_code != 200:
         raise Exception(response.text)
 
@@ -86,7 +86,7 @@ def main():
                         continue
                     is_content = True
 
-                print(message, end="")
+                print("\033[32m" + message + "\033[0m", end="")
                 answer += message
 
             messages.append({"role": "assistant", "content": answer})
@@ -99,7 +99,7 @@ def main():
             break
 
         except Exception as e:
-            print("Exception: ", e)
+            print("\033[31mException: {}\033[0m".format(e))
             retry = input("Sorry, I have an exception. Try again（Y/N）").lower()
 
 

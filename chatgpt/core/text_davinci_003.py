@@ -65,7 +65,7 @@ def main():
             break
 
         except Exception as e:
-            print("Exception: ", e)
+            print("\033[31mException: {}\033[0m".format(e))
             retry = input("Sorry, I have an exception. Try again（Y/N）").lower()
 
 
