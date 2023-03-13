@@ -39,6 +39,10 @@ Run \033[33mpip install --upgrade asst\033[0m to update!
 with open(join(dirname(__file__), "VERSION"), "rb") as f:
     VERSION = f.read().decode("ascii").strip()
 
+# 修复window下print不能带颜色输出的问题
+if os.name == "nt":
+    os.system("")
+
 
 def check_new_version():
     try:
