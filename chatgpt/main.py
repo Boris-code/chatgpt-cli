@@ -27,6 +27,8 @@ api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     print("Please conf OPENAI_API_KEY and set it to env")
     print("Example: export OPENAI_API_KEY=your key")
+    print("详情见：https://github.com/Boris-code/chatgpt-cli")
+    print("没有OPENAI_API_KEY，可加微信 boris_tm 获取")
     os._exit(0)
 
 

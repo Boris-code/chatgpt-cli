@@ -117,7 +117,7 @@ def main():
             if not proxy:
                 print(
                     "\033[31mConnectTimeout: {}\033[0m".format(
-                        "请求超时，如为国内用户请设置代理，设置方式见：https://github.com/Boris-code/chatgpt-cli"
+                        "请求超时，如为国内用户请设置境外代理，设置方式见：https://github.com/Boris-code/chatgpt-cli"
                     )
                 )
                 print("\nBye~")
