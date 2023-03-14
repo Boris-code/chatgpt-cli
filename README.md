@@ -37,7 +37,7 @@ export OPENAI_API_KEY="your key"
 
 **window下设置为系统环境变量**
 
-参考：<a herf="https://blog.csdn.net/xue_nuo/article/details/114793534" target="_blank">https://blog.csdn.net/xue_nuo/article/details/114793534</a>
+参考：<a href="https://blog.csdn.net/xue_nuo/article/details/114793534" target="_blank">https://blog.csdn.net/xue_nuo/article/details/114793534</a>
 
 ## 使用
 
@@ -67,7 +67,7 @@ export ASST_PROXY="username:password@ip:port"
 
 不需要公司、不需要实名，准备好邮箱即可
 
-地址：<a herf="https://brightdata.grsm.io/r0g6zla8seqs" target="_blank">https://brightdata.grsm.io/r0g6zla8seqs</a>
+地址：<a href="https://brightdata.grsm.io/r0g6zla8seqs" target="_blank">https://brightdata.grsm.io/r0g6zla8seqs</a>
 
 若提示认证，选择支付宝即可，并不需要真正的认证
 
