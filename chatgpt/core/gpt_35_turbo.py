@@ -9,14 +9,21 @@ Created on 2023/3/2 16:43
 """
 import json
 import os
+import warnings
 from typing import (
     Iterator,
     Optional,
 )
 
 import requests
+import urllib3
+
+# 忽略 InsecureRequestWarning 报警信息
+warnings.simplefilter("ignore", urllib3.exceptions.InsecureRequestWarning)
+
 
 api_key = os.getenv("OPENAI_API_KEY")
+proxy = os.getenv("ASST_PROXY")
 
 
 def parse_stream_helper(line: bytes) -> Optional[str]:
@@ -54,7 +61,15 @@ def request(messages):
         "stream": True,
         "user": api_key,
     }
-    response = requests.post(url, headers=headers, json=data, stream=True, timeout=60)
+    response = requests.post(
+        url,
+        headers=headers,
+        json=data,
+        stream=True,
+        timeout=30,
+        proxies={"https": proxy} if proxy else None,
+        verify=False,
+    )
     if response.status_code != 200:
         raise Exception(response.text)
 
@@ -97,6 +112,19 @@ def main():
         except (KeyboardInterrupt, EOFError) as e:
             print("\nBye~")
             break
+
+        except requests.exceptions.ConnectTimeout as e:
+            if not proxy:
+                print(
+                    "\033[31mConnectTimeout: {}\033[0m".format(
+                        "请求超时，如为国内用户请设置代理，设置方式见：https://github.com/Boris-code/chatgpt-cli"
+                    )
+                )
+                print("\nBye~")
+                break
+            else:
+                print("\033[31mConnectTimeout: {}\033[0m".format(e))
+                retry = input("Sorry, I have an exception. Try again（Y/N）").lower()
 
         except Exception as e:
             print("\033[31mException: {}\033[0m".format(e))
