@@ -3,3 +3,4 @@ asst.egg-info/
 build/
 dist/
 .pyc
+.MWebMetaData/

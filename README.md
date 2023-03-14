@@ -2,7 +2,13 @@
 > ChatGPT shell command
 > Base on gpt-3.5-turbo
 
-支持连续对话
+ChatGPT 支持终端命令行啦，基于gpt-3.5-turbo
+
+支持连续对话，在终端输入asst即可开启对话。
+
+如让它写个feapder的爬虫，实际对答如下：
+
+![](media/16788027988798.jpg)
 
 ## 安装
 
