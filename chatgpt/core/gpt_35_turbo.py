@@ -22,8 +22,9 @@ import urllib3
 warnings.simplefilter("ignore", urllib3.exceptions.InsecureRequestWarning)
 
 
-api_key = os.getenv("OPENAI_API_KEY")
-proxy = os.getenv("ASST_PROXY")
+API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_URL = os.getenv("OPENAI_URL", "https://api.openai.com/v1/chat/completions")
+PROXY = os.getenv("ASST_PROXY")
 
 
 def parse_stream_helper(line: bytes) -> Optional[str]:
@@ -51,23 +52,22 @@ def request(messages):
 
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer {}".format(api_key),
+        "Authorization": "Bearer {}".format(API_KEY),
     }
-    url = "https://api.openai.com/v1/chat/completions"
     data = {
         "model": "gpt-3.5-turbo",
         "messages": messages,
         "temperature": 0.2,
         "stream": True,
-        "user": api_key,
+        "user": API_KEY,
     }
     response = requests.post(
-        url,
+        OPENAI_URL,
         headers=headers,
         json=data,
         stream=True,
         timeout=30,
-        proxies={"https": proxy} if proxy else None,
+        proxies={"https": PROXY} if PROXY else None,
         verify=False,
     )
     if response.status_code != 200:
@@ -84,51 +84,56 @@ def main():
 
     while True:
         try:
-            if retry != "y":
-                question = input("You: ")
-                messages.append({"role": "user", "content": question})
+            try:
+                if retry != "y":
+                    question = input("You: ")
+                    messages.append({"role": "user", "content": question})
 
-            retry = False
+                retry = False
 
-            resp = request(messages)
+                resp = request(messages)
 
-            is_content = False
-            answer = ""
-            for data in resp:
-                message = data[0]["delta"].get("content", "")
-                if not is_content:
-                    if message.strip() == "":
-                        continue
-                    is_content = True
+                is_content = False
+                answer = ""
+                for data in resp:
+                    message = data[0]["delta"].get("content", "")
+                    if not is_content:
+                        if message.strip() == "":
+                            continue
+                        is_content = True
 
-                print("\033[32m" + message + "\033[0m", end="")
-                answer += message
+                    print("\033[32m" + message + "\033[0m", end="")
+                    answer += message
 
-            messages.append({"role": "assistant", "content": answer})
-            if len(str(messages)) > 2048:
-                messages = messages[-3:]
-            print("\n\n")
+                messages.append({"role": "assistant", "content": answer})
+                if len(str(messages)) > 2048:
+                    messages = messages[-3:]
+                print("\n\n")
+
+            except (KeyboardInterrupt, EOFError) as e:
+                print("\nBye~")
+                break
+
+            except requests.exceptions.ConnectTimeout as e:
+                if not PROXY:
+                    print(
+                        "\033[31mConnectTimeout: {}\033[0m".format(
+                            "请求超时，如为国内用户请设置境外代理，设置方式见：https://github.com/Boris-code/chatgpt-cli"
+                        )
+                    )
+                    print("\nBye~")
+                    break
+                else:
+                    print("\033[31mConnectTimeout: {}\033[0m".format(e))
+                    retry = input("Sorry, I have an exception. Try again:（Y/N）").lower()
+
+            except Exception as e:
+                print("\033[31mException: {}\033[0m".format(e))
+                retry = input("Sorry, I have an exception. Try again:（Y/N）").lower()
 
         except (KeyboardInterrupt, EOFError) as e:
             print("\nBye~")
             break
-
-        except requests.exceptions.ConnectTimeout as e:
-            if not proxy:
-                print(
-                    "\033[31mConnectTimeout: {}\033[0m".format(
-                        "请求超时，如为国内用户请设置境外代理，设置方式见：https://github.com/Boris-code/chatgpt-cli"
-                    )
-                )
-                print("\nBye~")
-                break
-            else:
-                print("\033[31mConnectTimeout: {}\033[0m".format(e))
-                retry = input("Sorry, I have an exception. Try again（Y/N）").lower()
-
-        except Exception as e:
-            print("\033[31mException: {}\033[0m".format(e))
-            retry = input("Sorry, I have an exception. Try again（Y/N）").lower()
 
 
 if __name__ == "__main__":
