@@ -16,6 +16,15 @@ ChatGPT 支持终端命令行啦，基于gpt-3.5-turbo
 pip install asst
 ```
 
+## 环境变量
+
+| 变量 | 必须 | 描述 |
+| ----|---| ---------------------------------------------------|
+| OPENAI_API_KEY| 是 | OpenAI的密钥                                                |
+| OPENAI_URL |否 | OpenAI的接口地址，如：https://api.openai.com/v1/chat/completions |
+| ASST_PROXY| 否 |代理，如 username:password@ip:port                               |
+
+
 ## 配置
 
 > 没有OPENAI_API_KEY，可联系微信 boris_tm
