@@ -82,12 +82,35 @@ def main():
     messages = []
     retry = False
 
+    tip = """
+ 
+ █████╗ ███████╗███████╗████████╗
+██╔══██╗██╔════╝██╔════╝╚══██╔══╝
+███████║███████╗███████╗   ██║   
+██╔══██║╚════██║╚════██║   ██║   
+██║  ██║███████║███████║   ██║   
+╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   
+                                 
+ASST智能助手，基于gpt-3.5-turbo，支持多行输入                             
+    """
+    print(tip)
+
     while True:
         try:
             try:
                 if retry != "y":
-                    question = input("You: ")
+                    print("请输入问题，\033[33m回车 + 空格 + 回车\033[0m 发送消息:")
+                    question = []
+                    stopword = " "  # 停止条件
+                    for line in iter(
+                        input, stopword
+                    ):  # iter()中第一个参数是可调用的，即可以像函数一样调用他，因此是input，而不是input（）
+                        question.append(line)
+
+                    question = "\n".join(question)
                     messages.append({"role": "user", "content": question})
+
+                print("\n我已收到你的问题，正在思考中...", end="", flush=True)
 
                 retry = False
 
@@ -100,6 +123,7 @@ def main():
                     if not is_content:
                         if message.strip() == "":
                             continue
+                        print("\r" + " " * 50 + "\r", end="")  # 先清空当前行
                         is_content = True
 
                     print("\033[32m" + message + "\033[0m", end="")
