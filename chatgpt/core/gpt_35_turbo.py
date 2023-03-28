@@ -24,7 +24,7 @@ warnings.simplefilter("ignore", urllib3.exceptions.InsecureRequestWarning)
 
 API_KEY = os.getenv("OPENAI_API_KEY")
 OPENAI_URL = os.getenv("OPENAI_URL", "https://api.openai.com/v1/chat/completions")
-PROXY = os.getenv("ASST_PROXY")
+PROXY = os.getenv("ASST_PROXY") or os.getenv("HTTPS_PROXY") or os.getenv("HTTP_PROXY") or os.getenv("ALL_PROXY")
 
 
 def parse_stream_helper(line: bytes) -> Optional[str]:
