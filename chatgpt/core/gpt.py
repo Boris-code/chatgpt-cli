@@ -14,6 +14,7 @@ from typing import (
     Iterator,
     Optional,
 )
+from urllib.parse import urljoin
 
 import requests
 import urllib3
@@ -21,10 +22,10 @@ import urllib3
 # 忽略 InsecureRequestWarning 报警信息
 warnings.simplefilter("ignore", urllib3.exceptions.InsecureRequestWarning)
 
-
-API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_URL = os.getenv("OPENAI_URL", "https://api.openai.com/v1/chat/completions")
-PROXY = os.getenv("ASST_PROXY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_BASE_URL = os.getenv("OPENAI_BASE_URL", "https://api.openai.com")
+OPENAI_PROXY = os.getenv("OPENAI_PROXY")
+OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4-1106-preview")
 
 
 def parse_stream_helper(line: bytes) -> Optional[str]:
@@ -49,25 +50,24 @@ def parse_stream(rbody: Iterator[bytes]) -> Iterator[str]:
 
 
 def request(messages):
-
     headers = {
         "Content-Type": "application/json",
-        "Authorization": "Bearer {}".format(API_KEY),
+        "Authorization": "Bearer {}".format(OPENAI_API_KEY),
     }
     data = {
-        "model": "gpt-3.5-turbo",
+        "model": OPENAI_MODEL,
         "messages": messages,
         "temperature": 0.2,
         "stream": True,
-        "user": API_KEY,
+        "user": OPENAI_API_KEY,
     }
     response = requests.post(
-        OPENAI_URL,
+        urljoin(OPENAI_BASE_URL, "/v1/chat/completions"),
         headers=headers,
         json=data,
         stream=True,
         timeout=30,
-        proxies={"https": PROXY} if PROXY else None,
+        proxies={"https": OPENAI_PROXY} if OPENAI_PROXY else None,
         verify=False,
     )
     if response.status_code != 200:
@@ -78,20 +78,20 @@ def request(messages):
         yield data["choices"]
 
 
-def main():
+def run():
     messages = []
     retry = False
 
     tip = """
- 
+
  █████╗ ███████╗███████╗████████╗
 ██╔══██╗██╔════╝██╔════╝╚══██╔══╝
 ███████║███████╗███████╗   ██║   
 ██╔══██║╚════██║╚════██║   ██║   
 ██║  ██║███████║███████║   ██║   
 ╚═╝  ╚═╝╚══════╝╚══════╝   ╚═╝   
-                                 
-ASST智能助手，基于gpt-3.5-turbo，支持多行输入                             
+
+ASST智能助手，支持chatgpt-4，支持多行输入                             
     """
     print(tip)
 
@@ -139,10 +139,10 @@ ASST智能助手，基于gpt-3.5-turbo，支持多行输入
                 break
 
             except requests.exceptions.ConnectTimeout as e:
-                if not PROXY:
+                if not OPENAI_PROXY:
                     print(
                         "\033[31mConnectTimeout: {}\033[0m".format(
-                            "请求超时，如为国内用户请设置境外代理，设置方式见：https://github.com/Boris-code/chatgpt-cli"
+                            "请求超时，如为国内用户可设置API镜像地址或使用境外代理，设置方式见：https://github.com/Boris-code/chatgpt-cli"
                         )
                     )
                     print("\nBye~")
@@ -161,4 +161,4 @@ ASST智能助手，基于gpt-3.5-turbo，支持多行输入
 
 
 if __name__ == "__main__":
-    main()
+    run()

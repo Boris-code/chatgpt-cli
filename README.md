@@ -1,8 +1,8 @@
 # ChatGPT-CLI
 > ChatGPT shell command
-> Base on gpt-3.5-turbo
+> Support gpt-4
 
-ChatGPT 支持终端命令行啦，基于gpt-3.5-turbo
+ChatGPT 支持终端命令行啦，支持gpt-4
 
 支持连续对话，在终端输入asst即可开启对话。
 
@@ -18,16 +18,17 @@ pip install asst
 
 ## 环境变量
 
-| 变量 | 必须 | 描述 |
-| ----|---| ---------------------------------------------------|
-| OPENAI_API_KEY| 是 | OpenAI的密钥                                                |
-| OPENAI_URL |否 | OpenAI的接口地址，如：https://api.openai.com/v1/chat/completions |
-| ASST_PROXY| 否 |代理，如 username:password@ip:port                               |
+| 变量 | 必须 | 描述                                                                                                        |
+| ----|--|-----------------------------------------------------------------------------------------------------------|
+| OPENAI_API_KEY| 是 | OpenAI的密钥                                                                                                 |
+| OPENAI_BASE_URL |否 | OpenAI的镜像接口地址，如：https://api.openai.com， 注意不需要携带 v1/chat/completions |
+| OPENAI_PROXY| 否 | 代理，如 username:password@ip:port                                                                            |
+| OPENAI_MODEL| 否 |模型， 支持 gpt-4-1106-preview、gpt-3.5-turbo等，默认为 gpt-4-1106-preview |
 
 
 ## 配置
 
-> 没有OPENAI_API_KEY，可联系微信 boris_tm
+> 没有OPENAI_API_KEY，openai官网自己搞
 
 设置`OPENAI_API_KEY="chatgpt的密钥"`到环境变量
 
@@ -58,7 +59,7 @@ Bot: Hi there!
 
 ## 请求超时
 
-国内用户因为墙的原因，无法直接访问chatgpt，需使用魔法。如vpn或代理
+国内用户因为墙的原因，无法直接访问chatgpt，需配置镜像api或使用代理
 
 代理使用方式：
 
@@ -108,7 +109,7 @@ export ASST_PROXY="username:password@ip:port"
 
 ## OPENAI_API_KEY
 
-<font color="red"> 没有OPENAI_API_KEY，可联系微信 boris_tm</font>
+在chatgpt官网申请
 
 
 

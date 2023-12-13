@@ -18,7 +18,7 @@ from os.path import dirname, join
 
 import requests
 
-from chatgpt.core import gpt_35_turbo
+from chatgpt.core import gpt
 
 # from chatgpt.core import text_davinci_003
 
@@ -69,8 +69,7 @@ def check_new_version():
 
 
 def main():
-    gpt_35_turbo.main()
-    # text_davinci_003.main()
+    gpt.run()
     check_new_version()
 
 
