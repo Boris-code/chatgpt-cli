@@ -138,7 +138,7 @@ ASST智能助手，支持chatgpt-4，支持多行输入
                 print("\nBye~")
                 break
 
-            except requests.exceptions.ConnectTimeout as e:
+            except requests.exceptions.RequestException as e:
                 if not OPENAI_PROXY:
                     print(
                         "\033[31mConnectTimeout: {}\033[0m".format(
